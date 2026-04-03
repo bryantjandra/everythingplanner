@@ -1,0 +1,26 @@
+:root {
+  --color-foreground: 56, 51, 46;
+  --color-muted: 138, 128, 117;
+  --color-muted-highlighted: 80, 74, 67;
+  --color-hover: 134, 112, 45;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+body {
+  background-color: rgb(247, 245, 243);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-weight: 450;
+  color: rgb(var(--color-foreground));
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
