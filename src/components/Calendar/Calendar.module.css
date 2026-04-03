@@ -1,0 +1,6 @@
+.calendar {
+  width: 300px;
+  border: 2px solid rgb(var(--color-muted));
+  border-radius: 15px;
+  overflow: hidden;
+}

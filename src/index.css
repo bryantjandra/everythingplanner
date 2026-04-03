@@ -17,6 +17,10 @@ body {
   font-weight: 450;
   color: rgb(var(--color-foreground));
   -webkit-font-smoothing: antialiased;
+  --semi-color-focus-border: transparent;
+  --semi-color-hover-border: transparent;
+  --semi-color-primary: rgba(var(--color-foreground), 1);
+  --semi-color-primary-hover: rgba(var(--color-hover), 1);
 }
 
 * {
