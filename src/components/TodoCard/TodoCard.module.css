@@ -33,7 +33,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 15px;
-  width: 80%;
+  width: 90%;
 }
 
 .todoItem {
@@ -41,12 +41,40 @@
   justify-content: space-between;
 }
 
+.todoLeft {
+  display: flex;
+  align-items: center;
+  width: 70%;
+}
+
+.todoRight {
+  display: flex;
+  align-items: center;
+}
+
 .deleteButton {
   all: unset;
   transition: color 0.1s linear;
+  margin-right: 5px;
 }
 
 .deleteButton:hover {
   color: rgb(var(--color-muted));
   transition: color 0.1s linear;
+}
+
+.checkboxTodo {
+  margin-left: 5px;
+  accent-color: #8ba888;
+  cursor: pointer;
+}
+
+.completedTodo {
+  color: rgb(var(--color-muted));
+  opacity: 0.6;
+  transition: all 0.5s ease;
+}
+
+.unfinishedTodo {
+  transition: all 0.5s ease;
 }

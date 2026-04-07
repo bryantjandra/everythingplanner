@@ -6,8 +6,13 @@ interface TodoCardProps {
   currDate: string;
 }
 
+interface Todo {
+  text: string;
+  completed: boolean;
+}
+
 export default function TodoCard({ currDate }: TodoCardProps) {
-  const [allTodos, setAllTodos] = useState<Record<string, string[]>>(() => {
+  const [allTodos, setAllTodos] = useState<Record<string, Todo[]>>(() => {
     const saved = localStorage.getItem("allTodos");
     return saved ? JSON.parse(saved) : {};
   });
@@ -20,13 +25,23 @@ export default function TodoCard({ currDate }: TodoCardProps) {
   }
 
   function handleDeleteTodo(index: number) {
-    const newTodos = currentTodos.filter((_, i) => {
+    const updatedTodos = currentTodos.filter((_, i) => {
       if (i === index) {
         return false;
       }
       return true;
     });
-    setAllTodos({ ...allTodos, [currDate]: newTodos });
+    setAllTodos({ ...allTodos, [currDate]: updatedTodos });
+  }
+
+  function handleToggleTodo(index: number) {
+    const updatedTodos = currentTodos.map((todo, i) => {
+      if (i === index) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    });
+    setAllTodos({ ...allTodos, [currDate]: updatedTodos });
   }
 
   useEffect(() => {
@@ -48,7 +63,10 @@ export default function TodoCard({ currDate }: TodoCardProps) {
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                currentTodos = [...currentTodos, inputText];
+                currentTodos = [
+                  ...currentTodos,
+                  { text: inputText, completed: false },
+                ];
                 setAllTodos({ ...allTodos, [currDate]: currentTodos });
                 setInputText("");
               }
@@ -58,15 +76,35 @@ export default function TodoCard({ currDate }: TodoCardProps) {
             {currentTodos.map((todo, index) => {
               return (
                 <li className={styles.todoItem} key={index}>
-                  • {todo}
-                  <button
-                    className={styles.deleteButton}
-                    onClick={() => {
-                      handleDeleteTodo(index);
-                    }}
-                  >
-                    <FaRegTrashAlt />
-                  </button>
+                  <div className={styles.todoLeft}>
+                    <span
+                      className={
+                        todo.completed
+                          ? styles.completedTodo
+                          : styles.unfinishedTodo
+                      }
+                    >
+                      • {todo.text}
+                    </span>
+                  </div>
+                  <div className={styles.todoRight}>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => {
+                        handleDeleteTodo(index);
+                      }}
+                    >
+                      <FaRegTrashAlt />
+                    </button>
+                    <input
+                      className={styles.checkboxTodo}
+                      type="checkbox"
+                      checked={todo.completed}
+                      onChange={() => {
+                        handleToggleTodo(index);
+                      }}
+                    />
+                  </div>
                 </li>
               );
             })}
