@@ -4,3 +4,18 @@
   border-radius: 15px;
   overflow: hidden;
 }
+
+.dateItemContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.todoDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #8ba888;
+  margin-top: -2px;
+}

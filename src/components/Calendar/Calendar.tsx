@@ -6,6 +6,21 @@ interface CalendarProps {
 }
 
 export default function Calendar({ onDateChange }: CalendarProps) {
+  const allTodos = localStorage.getItem("allTodos");
+  const allTodosParsed = allTodos ? JSON.parse(allTodos) : {};
+  function renderDate(dayNumber?: number, fullDate?: string) {
+    if (!fullDate) return dayNumber;
+    if (allTodosParsed[fullDate] && allTodosParsed[fullDate].length > 0) {
+      return (
+        <div className={styles.dateItemContainer}>
+          {dayNumber}
+          <span className={styles.todoDot} />
+        </div>
+      );
+    }
+    return dayNumber;
+  }
+
   return (
     <>
       <DatePicker
@@ -14,6 +29,7 @@ export default function Calendar({ onDateChange }: CalendarProps) {
         onChange={(_, dateString) => {
           onDateChange(dateString as string);
         }}
+        renderDate={renderDate}
       />
     </>
   );

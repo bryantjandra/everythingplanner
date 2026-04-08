@@ -17,6 +17,7 @@ export default function TodoCard({ currDate }: TodoCardProps) {
     return saved ? JSON.parse(saved) : {};
   });
   const [inputText, setInputText] = useState("");
+  const [isShaking, setIsShaking] = useState(false);
 
   let currentTodos = allTodos[currDate] || [];
 
@@ -56,13 +57,20 @@ export default function TodoCard({ currDate }: TodoCardProps) {
           <span className={styles.title}>Today's date is: {currDate} </span>
           <input
             value={inputText}
-            className={styles.inputTodo}
+            className={`${styles.inputTodo} ${isShaking ? styles.shake : ""}`}
+            onAnimationEnd={() => {
+              setIsShaking(false);
+            }}
             placeholder="enter what to do."
             onChange={(e) => {
               handleInputChange(e);
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
+                if (inputText === "") {
+                  setIsShaking(true);
+                  return;
+                }
                 currentTodos = [
                   ...currentTodos,
                   { text: inputText, completed: false },
