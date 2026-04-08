@@ -4,10 +4,12 @@ import TodoCard from "./components/TodoCard/TodoCard";
 import { useState } from "react";
 
 function App() {
-  const [currDate, setCurrDate] = useState("");
+  const date = new Date();
+  const todaysDate = date.toLocaleDateString("en-CA");
+  const [currDate, setCurrDate] = useState(todaysDate);
   return (
     <div className={styles.mainContainer}>
-      <Calendar onDateChange={setCurrDate} />
+      <Calendar currDate={currDate} onDateChange={setCurrDate} />
       <TodoCard currDate={currDate} />
     </div>
   );
