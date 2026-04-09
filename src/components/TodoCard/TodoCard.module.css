@@ -32,6 +32,20 @@
   opacity: 0.7;
 }
 
+.todoInput {
+  border: 1px solid rgb(var(--color-foreground));
+  border-radius: 8px;
+  padding: 5px;
+  width: 90%;
+  font-family: inherit;
+  font-weight: 450;
+}
+
+.todoInput:focus {
+  outline: none;
+  border-color: rgb(var(--color-muted));
+}
+
 .shake {
   animation: shake 0.3s ease;
   border-color: #c67350 !important;
@@ -70,6 +84,7 @@
 .todoItem {
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .todoLeft {
@@ -81,21 +96,21 @@
 .todoRight {
   display: flex;
   align-items: center;
+  justify-content: center;
+  column-gap: 8px;
 }
 
-.deleteButton {
+.todoButton {
   all: unset;
   transition: color 0.1s linear;
-  margin-right: 5px;
 }
 
-.deleteButton:hover {
+.todoButton:hover {
   color: rgb(var(--color-muted));
   transition: color 0.1s linear;
 }
 
 .checkboxTodo {
-  margin-left: 5px;
   accent-color: #8ba888;
   cursor: pointer;
 }

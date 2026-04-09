@@ -20,9 +20,15 @@ export default function TodoCard({ currDate }: TodoCardProps) {
   const [isShaking, setIsShaking] = useState(false);
 
   let currentTodos = allTodos[currDate] || [];
+  const [edittingIndex, setEdittingIndex] = useState<number>();
+  const [todoInput, setTodoInput] = useState("");
 
   function handleInputChange(e) {
     setInputText(e.target.value);
+  }
+
+  function handleTodoInputChange(e) {
+    setTodoInput(e.target.value);
   }
 
   function handleDeleteTodo(index: number) {
@@ -43,6 +49,11 @@ export default function TodoCard({ currDate }: TodoCardProps) {
       return todo;
     });
     setAllTodos({ ...allTodos, [currDate]: updatedTodos });
+  }
+
+  function handleEditTodo(index: number) {
+    setEdittingIndex(index);
+    setTodoInput(currentTodos[index].text);
   }
 
   useEffect(() => {
@@ -83,21 +94,66 @@ export default function TodoCard({ currDate }: TodoCardProps) {
           <ul className={styles.todoList}>
             {currentTodos.map((todo, index) => {
               return (
-                <li className={styles.todoItem} key={index}>
+                <li
+                  onDoubleClick={() => {
+                    handleEditTodo(index);
+                  }}
+                  className={styles.todoItem}
+                  key={index}
+                >
                   <div className={styles.todoLeft}>
-                    <span
-                      className={
-                        todo.completed
-                          ? styles.completedTodo
-                          : styles.unfinishedTodo
-                      }
-                    >
-                      • {todo.text}
-                    </span>
+                    {index === edittingIndex ? (
+                      <input
+                        autoFocus
+                        value={todoInput}
+                        className={`${styles.todoInput} ${isShaking ? styles.shake : ""}`}
+                        onAnimationEnd={() => {
+                          setIsShaking(false);
+                        }}
+                        onChange={(e) => {
+                          handleTodoInputChange(e);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Escape") {
+                            setEdittingIndex(undefined);
+                            return;
+                          }
+                          if (e.key === "Enter") {
+                            if (todoInput === "") {
+                              setIsShaking(true);
+                              return;
+                            }
+                            const updatedTodos = currentTodos.map(
+                              (todo, index) => {
+                                if (index === edittingIndex) {
+                                  return { ...todo, text: todoInput };
+                                }
+                                return todo;
+                              },
+                            );
+                            setAllTodos({
+                              ...allTodos,
+                              [currDate]: updatedTodos,
+                            });
+                            setEdittingIndex(undefined);
+                          }
+                        }}
+                      />
+                    ) : (
+                      <span
+                        className={
+                          todo.completed
+                            ? styles.completedTodo
+                            : styles.unfinishedTodo
+                        }
+                      >
+                        • {todo.text}
+                      </span>
+                    )}
                   </div>
                   <div className={styles.todoRight}>
                     <button
-                      className={styles.deleteButton}
+                      className={styles.todoButton}
                       onClick={() => {
                         handleDeleteTodo(index);
                       }}
