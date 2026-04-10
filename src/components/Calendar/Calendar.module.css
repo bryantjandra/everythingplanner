@@ -12,10 +12,18 @@
   align-items: center;
 }
 
-.todoDot {
+.todoDotCompleted {
   width: 5px;
   height: 5px;
   border-radius: 50%;
   background-color: #8ba888;
+  margin-top: -2px;
+}
+
+.todoDotOngoing {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #a89f99;
   margin-top: -2px;
 }

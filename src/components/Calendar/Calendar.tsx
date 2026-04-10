@@ -1,21 +1,33 @@
 import { DatePicker } from "@douyinfe/semi-ui";
+import type { Todo } from "../TodoCard/TodoCard";
 import styles from "./Calendar.module.css";
 
 interface CalendarProps {
   onDateChange: (date: string) => void;
   currDate: string;
+  allTodos: Record<string, Todo[]>;
 }
 
-export default function Calendar({ onDateChange, currDate }: CalendarProps) {
-  const allTodos = localStorage.getItem("allTodos");
-  const allTodosParsed = allTodos ? JSON.parse(allTodos) : {};
+export default function Calendar({
+  onDateChange,
+  currDate,
+  allTodos,
+}: CalendarProps) {
   function renderDate(dayNumber?: number, fullDate?: string) {
     if (!fullDate) return dayNumber;
-    if (allTodosParsed[fullDate] && allTodosParsed[fullDate].length > 0) {
+    if (allTodos[fullDate]) {
+      const currTodos = allTodos[fullDate];
+      const allCompleted = currTodos.every((todo: Todo) => {
+        return todo.completed;
+      });
       return (
         <div className={styles.dateItemContainer}>
           {dayNumber}
-          <span className={styles.todoDot} />
+          <span
+            className={
+              allCompleted ? styles.todoDotCompleted : styles.todoDotOngoing
+            }
+          />
         </div>
       );
     }

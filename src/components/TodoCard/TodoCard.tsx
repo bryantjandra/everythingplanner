@@ -1,21 +1,19 @@
 import styles from "./TodoCard.module.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import type { Todo } from "../../App";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 interface TodoCardProps {
   currDate: string;
+  allTodos: Record<string, Todo[]>;
+  onTodoChange: (allTodos: Record<string, Todo[]>) => void;
 }
 
-interface Todo {
-  text: string;
-  completed: boolean;
-}
-
-export default function TodoCard({ currDate }: TodoCardProps) {
-  const [allTodos, setAllTodos] = useState<Record<string, Todo[]>>(() => {
-    const saved = localStorage.getItem("allTodos");
-    return saved ? JSON.parse(saved) : {};
-  });
+export default function TodoCard({
+  currDate,
+  allTodos,
+  onTodoChange,
+}: TodoCardProps) {
   const [inputText, setInputText] = useState("");
   const [isShaking, setIsShaking] = useState(false);
 
@@ -38,7 +36,12 @@ export default function TodoCard({ currDate }: TodoCardProps) {
       }
       return true;
     });
-    setAllTodos({ ...allTodos, [currDate]: updatedTodos });
+    if (updatedTodos.length === 0) {
+      const { [currDate]: _, ...rest } = allTodos;
+      onTodoChange(rest);
+    } else {
+      onTodoChange({ ...allTodos, [currDate]: updatedTodos });
+    }
   }
 
   function handleToggleTodo(index: number) {
@@ -48,18 +51,13 @@ export default function TodoCard({ currDate }: TodoCardProps) {
       }
       return todo;
     });
-    setAllTodos({ ...allTodos, [currDate]: updatedTodos });
+    onTodoChange({ ...allTodos, [currDate]: updatedTodos });
   }
 
   function handleEditTodo(index: number) {
     setEdittingIndex(index);
     setTodoInput(currentTodos[index].text);
   }
-
-  useEffect(() => {
-    let newTodos = JSON.stringify(allTodos);
-    localStorage.setItem("allTodos", newTodos);
-  }, [allTodos]);
 
   return (
     <>
@@ -86,7 +84,7 @@ export default function TodoCard({ currDate }: TodoCardProps) {
                   ...currentTodos,
                   { text: inputText, completed: false },
                 ];
-                setAllTodos({ ...allTodos, [currDate]: currentTodos });
+                onTodoChange({ ...allTodos, [currDate]: currentTodos });
                 setInputText("");
               }
             }}
@@ -131,7 +129,7 @@ export default function TodoCard({ currDate }: TodoCardProps) {
                                 return todo;
                               },
                             );
-                            setAllTodos({
+                            onTodoChange({
                               ...allTodos,
                               [currDate]: updatedTodos,
                             });

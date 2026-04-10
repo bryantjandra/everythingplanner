@@ -17,8 +17,9 @@
   border-radius: 10px;
   margin-top: 5px;
   padding: 5px;
-  width: 70%;
+  width: 85%;
   font-family: inherit;
+  align-self: center;
 }
 
 .inputTodo:focus {
