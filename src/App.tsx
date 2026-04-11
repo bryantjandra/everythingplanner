@@ -1,6 +1,7 @@
 import styles from "./App.module.css";
 import Calendar from "./components/Calendar/Calendar";
 import TodoCard from "./components/TodoCard/TodoCard";
+import Pomodoro from "./components/Pomodoro/Pomodoro";
 import { useState, useEffect } from "react";
 
 export interface Todo {
@@ -23,18 +24,23 @@ function App() {
   }, [allTodos]);
 
   return (
-    <div className={styles.mainContainer}>
-      <Calendar
-        allTodos={allTodos}
-        currDate={currDate}
-        onDateChange={setCurrDate}
-      />
-      <TodoCard
-        allTodos={allTodos}
-        onTodoChange={setAllTodos}
-        currDate={currDate}
-      />
-    </div>
+    <>
+      <div className={styles.navbar}>
+        <Pomodoro />
+      </div>
+      <div className={styles.mainContainer}>
+        <Calendar
+          allTodos={allTodos}
+          currDate={currDate}
+          onDateChange={setCurrDate}
+        />
+        <TodoCard
+          allTodos={allTodos}
+          onTodoChange={setAllTodos}
+          currDate={currDate}
+        />
+      </div>
+    </>
   );
 }
 

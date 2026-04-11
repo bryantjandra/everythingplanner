@@ -1,0 +1,19 @@
+.clockTimer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 10px;
+  padding: 10px;
+}
+
+.clockButtons {
+  display: flex;
+  column-gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.clockButton {
+  padding: 10px;
+}

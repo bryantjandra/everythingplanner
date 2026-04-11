@@ -1,5 +1,5 @@
 import { DatePicker } from "@douyinfe/semi-ui";
-import type { Todo } from "../TodoCard/TodoCard";
+import type { Todo } from "../../App";
 import styles from "./Calendar.module.css";
 
 interface CalendarProps {
