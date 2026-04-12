@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { LuUndo2 } from "react-icons/lu";
+import { MdSwitchRight } from "react-icons/md";
 import styles from "./Pomodoro.module.css";
 
-const DEFAULT_TIME_WORK = 2700;
+const DEFAULT_TIME_WORK = 3600;
 const DEFAULT_TIME_REST = 900;
 
 export default function Pomodoro() {
@@ -43,42 +45,41 @@ export default function Pomodoro() {
 
   return (
     <div className={styles.clockTimer}>
-      <div>{formatTime(seconds)}</div>
-
-      <div className={styles.clockButtons}>
+      <div className={styles.clockTimerTop}>
         <button
-          className={styles.clockButton}
-          onClick={() => {
-            setIsRunning(true);
-          }}
-        >
-          Start
-        </button>
-        <button
-          className={styles.clockButton}
-          onClick={() => {
-            setIsRunning(false);
-          }}
-        >
-          Stop
-        </button>
-        <button
-          className={styles.clockButton}
-          onClick={() => {
-            setIsRunning(false);
-            setSeconds(mode === "Work" ? DEFAULT_TIME_WORK : DEFAULT_TIME_REST);
-          }}
-        >
-          Reset
-        </button>
-        <button
-          className={styles.clockButton}
+          className={styles.topButton}
           onClick={() => {
             setIsRunning(false);
             setMode(mode === "Work" ? "Rest" : "Work");
           }}
         >
-          Switch Mode
+          <MdSwitchRight />
+        </button>
+        <span>{formatTime(seconds)} </span>
+
+        <button
+          className={styles.topButton}
+          onClick={() => {
+            setIsRunning(false);
+            setSeconds(mode === "Work" ? DEFAULT_TIME_WORK : DEFAULT_TIME_REST);
+          }}
+        >
+          <LuUndo2 />
+        </button>
+      </div>
+
+      <div className={styles.clockButtons}>
+        <button
+          className={styles.playButton}
+          onClick={() => {
+            setIsRunning(!isRunning);
+          }}
+        >
+          <div className={styles.circleContainer}>
+            <div
+              className={`${styles.stopSquare} ${isRunning ? styles.visible : ""}`}
+            ></div>
+          </div>
         </button>
       </div>
     </div>

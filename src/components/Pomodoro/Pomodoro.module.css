@@ -14,6 +14,54 @@
   align-items: center;
 }
 
-.clockButton {
-  padding: 10px;
+.clockTimerTop {
+  display: flex;
+  column-gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.topButton {
+  all: unset;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.topButton:hover {
+  color: rgb(var(--color-muted));
+}
+
+.playButton {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.circleContainer {
+  border: 1px solid rgb(var(--color-foreground));
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stopSquare {
+  background-color: rgb(var(--color-foreground));
+  width: 6px;
+  height: 6px;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.25s linear;
+}
+
+.visible {
+  opacity: 1;
+  transform: scale(1);
 }
