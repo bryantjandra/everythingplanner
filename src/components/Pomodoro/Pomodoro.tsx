@@ -6,7 +6,17 @@ import styles from "./Pomodoro.module.css";
 const DEFAULT_TIME_WORK = 3600;
 const DEFAULT_TIME_REST = 900;
 
-export default function Pomodoro() {
+interface PomodoroProps {
+  allSessions: Record<string, number>;
+  onSessionChange: (allSessions: Record<string, number>) => void;
+  currDate: string;
+}
+
+export default function Pomodoro({
+  allSessions,
+  onSessionChange,
+  currDate,
+}: PomodoroProps) {
   const [isRunning, setIsRunning] = useState(false);
   const [seconds, setSeconds] = useState(DEFAULT_TIME_WORK);
   const [mode, setMode] = useState<"Work" | "Rest">("Work");
@@ -35,6 +45,12 @@ export default function Pomodoro() {
   useEffect(() => {
     if (seconds === 0) {
       setIsRunning(false);
+      if (mode === "Work") {
+        onSessionChange({
+          ...allSessions,
+          [currDate]: (allSessions[currDate] || 0) + 1,
+        });
+      }
       setMode(mode === "Work" ? "Rest" : "Work");
     }
   }, [seconds]);
@@ -45,6 +61,10 @@ export default function Pomodoro() {
 
   return (
     <div className={styles.clockTimer}>
+      <div className={styles.counterContainer}>
+        deep work sessions: {allSessions[currDate] ? allSessions[currDate] : 0}
+      </div>
+
       <div className={styles.clockTimerTop}>
         <button
           className={styles.topButton}

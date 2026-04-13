@@ -65,3 +65,8 @@
   opacity: 1;
   transform: scale(1);
 }
+
+.counterContainer {
+  position: relative;
+  top: -5px;
+}

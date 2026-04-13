@@ -18,15 +18,29 @@ function App() {
     return saved ? JSON.parse(saved) : {};
   });
 
+  const [allSessions, setAllSessions] = useState<Record<string, number>>(() => {
+    const saved = localStorage.getItem("allSessions");
+    return saved ? JSON.parse(saved) : {};
+  });
+
   useEffect(() => {
     let newTodos = JSON.stringify(allTodos);
     localStorage.setItem("allTodos", newTodos);
   }, [allTodos]);
 
+  useEffect(() => {
+    let newSessions = JSON.stringify(allSessions);
+    localStorage.setItem("allSessions", newSessions);
+  }, [allSessions]);
+
   return (
     <>
       <div className={styles.navbar}>
-        <Pomodoro />
+        <Pomodoro
+          currDate={currDate}
+          allSessions={allSessions}
+          onSessionChange={setAllSessions}
+        />
       </div>
       <div className={styles.mainContainer}>
         <Calendar
