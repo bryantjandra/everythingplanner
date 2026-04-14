@@ -30,10 +30,14 @@ export default function Pomodoro({
 
   useEffect(() => {
     if (!isRunning) return;
+    const endTimestamp = Date.now() + seconds * 1000;
     const intervalId = setInterval(() => {
-      setSeconds((seconds) => {
-        if (seconds <= 0) return 0;
-        return seconds - 1;
+      setSeconds(() => {
+        const remainingTime = Math.ceil((endTimestamp - Date.now()) / 1000);
+        if (remainingTime <= 0) {
+          return 0;
+        }
+        return remainingTime;
       });
     }, 1000);
 
