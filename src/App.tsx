@@ -2,7 +2,9 @@ import styles from "./App.module.css";
 import Calendar from "./components/Calendar/Calendar";
 import TodoCard from "./components/TodoCard/TodoCard";
 import Pomodoro from "./components/Pomodoro/Pomodoro";
+import GoalTracker from "./components/GoalTracker/GoalTracker";
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
 export interface Todo {
   text: string;
@@ -34,27 +36,35 @@ function App() {
   }, [allSessions]);
 
   return (
-    <>
-      <div className={styles.navbar}>
-        <Pomodoro
-          currDate={currDate}
-          allSessions={allSessions}
-          onSessionChange={setAllSessions}
-        />
-      </div>
-      <div className={styles.mainContainer}>
-        <Calendar
-          allTodos={allTodos}
-          currDate={currDate}
-          onDateChange={setCurrDate}
-        />
-        <TodoCard
-          allTodos={allTodos}
-          onTodoChange={setAllTodos}
-          currDate={currDate}
-        />
-      </div>
-    </>
+    <Routes>
+      <Route
+        path="/todos"
+        element={
+          <>
+            <div className={styles.navbar}>
+              <Pomodoro
+                currDate={currDate}
+                allSessions={allSessions}
+                onSessionChange={setAllSessions}
+              />
+            </div>
+            <div className={styles.mainContainer}>
+              <Calendar
+                allTodos={allTodos}
+                currDate={currDate}
+                onDateChange={setCurrDate}
+              />
+              <TodoCard
+                allTodos={allTodos}
+                onTodoChange={setAllTodos}
+                currDate={currDate}
+              />
+            </div>
+          </>
+        }
+      />
+      <Route path="/goals" element={<GoalTracker />} />
+    </Routes>
   );
 }
 
