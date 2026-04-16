@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { LuUndo2 } from "react-icons/lu";
 import { MdSwitchRight } from "react-icons/md";
 import styles from "./Pomodoro.module.css";
+import pomodoroSparkle from "../../assets/pomodoroSparkle.mp3";
 
 const DEFAULT_TIME_WORK = 3600;
 const DEFAULT_TIME_REST = 900;
@@ -47,8 +48,14 @@ export default function Pomodoro({
   }, [isRunning]);
 
   useEffect(() => {
+    if (isRunning) {
+      document.title = `everythingplanner - ${formatTime(seconds)}`;
+    }
     if (seconds === 0) {
+      document.title = "everythingplanner";
       setIsRunning(false);
+      const audioDing = new Audio(pomodoroSparkle);
+      audioDing.play();
       if (mode === "Work") {
         onSessionChange({
           ...allSessions,
