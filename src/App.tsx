@@ -3,8 +3,11 @@ import Calendar from "./components/Calendar/Calendar";
 import TodoCard from "./components/TodoCard/TodoCard";
 import Pomodoro from "./components/Pomodoro/Pomodoro";
 import GoalTracker from "./components/GoalTracker/GoalTracker";
+import YearlyGoal from "./components/YearlyGoal/YearlyGoal";
+import { FaRegCalendarAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
+import { IoLockClosedOutline } from "react-icons/io5";
 
 export interface Todo {
   text: string;
@@ -26,45 +29,61 @@ function App() {
   });
 
   useEffect(() => {
-    let newTodos = JSON.stringify(allTodos);
+    const newTodos = JSON.stringify(allTodos);
     localStorage.setItem("allTodos", newTodos);
   }, [allTodos]);
 
   useEffect(() => {
-    let newSessions = JSON.stringify(allSessions);
+    const newSessions = JSON.stringify(allSessions);
     localStorage.setItem("allSessions", newSessions);
   }, [allSessions]);
 
   return (
-    <Routes>
-      <Route
-        path="/todos"
-        element={
-          <>
-            <div className={styles.navbar}>
-              <Pomodoro
-                currDate={currDate}
-                allSessions={allSessions}
-                onSessionChange={setAllSessions}
-              />
-            </div>
+    <>
+      <div className={styles.navbar}>
+        <Link to="/goals">
+          <IoLockClosedOutline className={styles.goalLogo} />
+        </Link>
+        <Pomodoro
+          currDate={currDate}
+          allSessions={allSessions}
+          onSessionChange={setAllSessions}
+        />
+        <Link to="/">
+          <FaRegCalendarAlt className={styles.calendarLogo} />
+        </Link>
+      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <div className={styles.mainContainer}>
+                <Calendar
+                  allTodos={allTodos}
+                  currDate={currDate}
+                  onDateChange={setCurrDate}
+                />
+                <TodoCard
+                  allTodos={allTodos}
+                  onTodoChange={setAllTodos}
+                  currDate={currDate}
+                />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="/goals"
+          element={
             <div className={styles.mainContainer}>
-              <Calendar
-                allTodos={allTodos}
-                currDate={currDate}
-                onDateChange={setCurrDate}
-              />
-              <TodoCard
-                allTodos={allTodos}
-                onTodoChange={setAllTodos}
-                currDate={currDate}
-              />
+              <GoalTracker />{" "}
             </div>
-          </>
-        }
-      />
-      <Route path="/goals" element={<GoalTracker />} />
-    </Routes>
+          }
+        />
+        <Route path="/goals/:year" element={<YearlyGoal />} />
+      </Routes>
+    </>
   );
 }
 

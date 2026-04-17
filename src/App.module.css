@@ -21,3 +21,31 @@
   padding: 18px;
   transition: opacity 0.8s ease;
 }
+
+.goalLogo {
+  color: rgb(var(--color-foreground));
+  position: absolute;
+  top: 30%;
+  width: 15px;
+  height: 15px;
+  right: 70%;
+  transition: color 0.3s ease;
+}
+
+.goalLogo:hover {
+  color: rgb(var(--color-muted));
+}
+
+.calendarLogo {
+  color: rgb(var(--color-foreground));
+  position: absolute;
+  top: 30%;
+  width: 15px;
+  height: 15px;
+  left: 70%;
+  transition: color 0.3s ease;
+}
+
+.calendarLogo:hover {
+  color: rgb(var(--color-muted));
+}

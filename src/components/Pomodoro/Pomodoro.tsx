@@ -71,48 +71,53 @@ export default function Pomodoro({
   }, [mode]);
 
   return (
-    <div className={styles.clockTimer}>
-      <div className={styles.counterContainer}>
-        deep work sessions: {allSessions[currDate] ? allSessions[currDate] : 0}
-      </div>
+    <>
+      <div className={styles.clockTimer}>
+        <div className={styles.counterContainer}>
+          deep work sessions:{" "}
+          {allSessions[currDate] ? allSessions[currDate] : 0}
+        </div>
 
-      <div className={styles.clockTimerTop}>
-        <button
-          className={styles.topButton}
-          onClick={() => {
-            setIsRunning(false);
-            setMode(mode === "Work" ? "Rest" : "Work");
-          }}
-        >
-          <MdSwitchRight />
-        </button>
-        <span>{formatTime(seconds)} </span>
+        <div className={styles.clockTimerTop}>
+          <button
+            className={styles.topButton}
+            onClick={() => {
+              setIsRunning(false);
+              setMode(mode === "Work" ? "Rest" : "Work");
+            }}
+          >
+            <MdSwitchRight />
+          </button>
+          <span>{formatTime(seconds)} </span>
 
-        <button
-          className={styles.topButton}
-          onClick={() => {
-            setIsRunning(false);
-            setSeconds(mode === "Work" ? DEFAULT_TIME_WORK : DEFAULT_TIME_REST);
-          }}
-        >
-          <LuUndo2 />
-        </button>
-      </div>
+          <button
+            className={styles.topButton}
+            onClick={() => {
+              setIsRunning(false);
+              setSeconds(
+                mode === "Work" ? DEFAULT_TIME_WORK : DEFAULT_TIME_REST,
+              );
+            }}
+          >
+            <LuUndo2 />
+          </button>
+        </div>
 
-      <div className={styles.clockButtons}>
-        <button
-          className={styles.playButton}
-          onClick={() => {
-            setIsRunning(!isRunning);
-          }}
-        >
-          <div className={styles.circleContainer}>
-            <div
-              className={`${styles.stopSquare} ${isRunning ? styles.visible : ""}`}
-            ></div>
-          </div>
-        </button>
+        <div className={styles.clockButtons}>
+          <button
+            className={styles.playButton}
+            onClick={() => {
+              setIsRunning(!isRunning);
+            }}
+          >
+            <div className={styles.circleContainer}>
+              <div
+                className={`${styles.stopSquare} ${isRunning ? styles.visible : ""}`}
+              ></div>
+            </div>
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
