@@ -3,7 +3,6 @@ import Calendar from "./components/Calendar/Calendar";
 import TodoCard from "./components/TodoCard/TodoCard";
 import Pomodoro from "./components/Pomodoro/Pomodoro";
 import GoalTracker from "./components/GoalTracker/GoalTracker";
-import YearlyGoal from "./components/YearlyGoal/YearlyGoal";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
@@ -73,15 +72,7 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/goals"
-          element={
-            <div className={styles.mainContainer}>
-              <GoalTracker />{" "}
-            </div>
-          }
-        />
-        <Route path="/goals/:year" element={<YearlyGoal />} />
+        <Route path="/goals" element={<GoalTracker />} />
       </Routes>
     </>
   );

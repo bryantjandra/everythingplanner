@@ -1,0 +1,46 @@
+.goalContainer {
+  display: flex;
+  margin: 0 auto;
+  min-height: 100vh;
+  max-width: 1200px;
+}
+
+.leftSidebar {
+  display: flex;
+  justify-content: center;
+  row-gap: 25px;
+  flex-direction: column;
+}
+
+.goalContent {
+  width: 100%;
+  margin-top: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+.yearList {
+  transition: 0.3s color ease;
+  cursor: pointer;
+}
+
+.yearList:hover {
+  color: rgb(var(--color-muted));
+}
+
+.activeYear {
+  color: rgb(var(--color-muted));
+}
+
+.tabContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.tabText {
+  padding: 15px;
+  margin-left: 30px;
+}
