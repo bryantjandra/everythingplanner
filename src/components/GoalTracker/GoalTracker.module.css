@@ -1,20 +1,24 @@
 .goalContainer {
-  display: flex;
+  display: block;
+  position: relative;
   margin: 0 auto;
   min-height: 100vh;
-  max-width: 1200px;
+  max-width: 700px;
 }
 
 .leftSidebar {
+  position: absolute;
+  top: 150px;
+  right: calc(100% + 20px);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   row-gap: 25px;
-  flex-direction: column;
 }
 
 .goalContent {
   width: 100%;
-  margin-top: 200px;
+  margin-top: 150px;
   display: flex;
   justify-content: center;
 }
@@ -42,5 +46,101 @@
 
 .tabText {
   padding: 15px;
-  margin-left: 30px;
+}
+
+.addGoal {
+  all: unset;
+  width: 20px;
+  height: 20px;
+  transition: 0.3s color ease;
+}
+
+.addGoal:hover {
+  color: rgb(var(--color-muted));
+}
+
+.plusIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.overlayModal {
+  background: rgb(0, 0, 0, 12%);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 0;
+  z-index: 1000;
+}
+
+.modal {
+  width: 600px;
+  max-width: 900px;
+  background: #f7f4f1;
+  border: 1px solid #d8d2cc;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+}
+
+.goalInput {
+  border: 1px solid rgb(var(--color-foreground));
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 5px;
+  width: 85%;
+  font-family: inherit;
+  align-self: center;
+}
+
+.goalInput:focus {
+  outline: none;
+  border-color: rgb(var(--color-muted));
+}
+
+.goalInput::placeholder {
+  font-style: italic;
+  font-family: inherit;
+  opacity: 0.7;
+}
+
+.goalSelect {
+  border: 1px solid rgb(var(--color-foreground));
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 5px;
+  width: 25%;
+  font-family: inherit;
+  align-self: start;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 14px;
+  justify-content: end;
+}
+
+.submitButton {
+  font-family: inherit;
+  color: inherit;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.cancelButton {
+  font-family: inherit;
+  color: inherit;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
 }
