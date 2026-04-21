@@ -43,9 +43,9 @@
   justify-content: flex-start;
   align-items: center;
 }
-
 .tabText {
   padding: 15px;
+  margin-left: 15px;
 }
 
 .addGoal {
@@ -119,6 +119,11 @@
   width: 25%;
   font-family: inherit;
   align-self: start;
+}
+
+.goalSelect:focus {
+  outline: none;
+  border-color: rgb(var(--color-muted));
 }
 
 .modalButtons {
