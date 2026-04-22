@@ -149,3 +149,22 @@
   border: none;
   background: transparent;
 }
+
+.goalList li {
+  list-style-position: inside;
+  padding: 5px;
+  margin-bottom: 15px;
+  transition: 0.2s border ease;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background-color: transparent;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.goalList li:hover {
+  background-color: rgba(128, 128, 128, 0.08);
+  border-color: #d9d9d9;
+}

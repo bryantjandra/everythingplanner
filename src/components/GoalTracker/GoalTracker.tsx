@@ -25,6 +25,7 @@ export default function GoalTracker() {
   });
 
   const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
 
   const [goalTitle, setGoalTitle] = useState("");
   const [goalCategory, setGoalCategory] = useState("Work");
@@ -70,22 +71,49 @@ export default function GoalTracker() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const updatedGoals = {
-      ...allGoals,
-      [year]: [
-        ...(allGoals[year] || []),
-        {
-          title: goalTitle,
-          category: goalCategory as Goal["category"],
-          progress: "not_started",
-        },
-      ],
-    };
+    let updatedGoals = {};
+    if (selectedGoal) {
+      const updatedYearlyGoals = allGoals[year].map((goal) => {
+        if (goal === selectedGoal) {
+          return {
+            title: goalTitle,
+            category: goalCategory as Goal["category"],
+            progress: "not_started",
+          };
+        } else {
+          return goal;
+        }
+      });
+      updatedGoals = {
+        ...allGoals,
+        [year]: updatedYearlyGoals,
+      };
+    } else {
+      updatedGoals = {
+        ...allGoals,
+        [year]: [
+          ...(allGoals[year] || []),
+          {
+            title: goalTitle,
+            category: goalCategory as Goal["category"],
+            progress: "not_started",
+          },
+        ],
+      };
+    }
 
     setGoalTitle("");
     setGoalCategory("Work");
     setAllGoals(updatedGoals);
+    setSelectedGoal(null);
     setModalOpen(false);
+  }
+
+  function handleSelectGoal(goal: Goal) {
+    setSelectedGoal(goal);
+    setGoalTitle(goal.title);
+    setGoalCategory(goal.category);
+    setModalOpen(true);
   }
 
   useEffect(() => {
@@ -127,36 +155,72 @@ export default function GoalTracker() {
               tab={<FaLaptopCode />}
               itemKey="1"
             >
-              <ul>
+              <ol className={styles.goalList}>
                 {yearlyWorkGoals.map((goal) => {
-                  return <li key={goal.title}>{goal.title}</li>;
+                  return (
+                    <li
+                      onClick={() => {
+                        handleSelectGoal(goal);
+                      }}
+                      key={goal.title}
+                    >
+                      {goal.title}
+                    </li>
+                  );
                 })}
-              </ul>
+              </ol>
             </TabPane>
             <TabPane
               className={styles.tabText}
               tab={<IoMdFitness />}
               itemKey="2"
             >
-              <ul>
+              <ol className={styles.goalList}>
                 {yearlyFitnessGoals.map((goal) => {
-                  return <li key={goal.title}>{goal.title}</li>;
+                  return (
+                    <li
+                      onClick={() => {
+                        handleSelectGoal(goal);
+                      }}
+                      key={goal.title}
+                    >
+                      {goal.title}
+                    </li>
+                  );
                 })}
-              </ul>
+              </ol>
             </TabPane>
             <TabPane className={styles.tabText} tab={<LuBrain />} itemKey="3">
-              <ul>
+              <ol className={styles.goalList}>
                 {yearlyLearningGoals.map((goal) => {
-                  return <li key={goal.title}>{goal.title}</li>;
+                  return (
+                    <li
+                      onClick={() => {
+                        handleSelectGoal(goal);
+                      }}
+                      key={goal.title}
+                    >
+                      {goal.title}
+                    </li>
+                  );
                 })}
-              </ul>
+              </ol>
             </TabPane>
             <TabPane className={styles.tabText} tab={<CgProfile />} itemKey="4">
-              <ul>
+              <ol className={styles.goalList}>
                 {yearlyPersonalGoals.map((goal) => {
-                  return <li key={goal.title}>{goal.title}</li>;
+                  return (
+                    <li
+                      onClick={() => {
+                        handleSelectGoal(goal);
+                      }}
+                      key={goal.title}
+                    >
+                      {goal.title}
+                    </li>
+                  );
                 })}
-              </ul>
+              </ol>
             </TabPane>
           </Tabs>
           <button
@@ -169,10 +233,12 @@ export default function GoalTracker() {
           </button>
         </div>
       </div>
+
       {isModalOpen && (
         <div
           onClick={() => {
             setModalOpen(false);
+            setSelectedGoal(null);
           }}
           className={styles.overlayModal}
         >
@@ -214,6 +280,64 @@ export default function GoalTracker() {
                   type="button"
                   onClick={() => {
                     setModalOpen(false);
+                    setSelectedGoal(null);
+                  }}
+                >
+                  cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {isModalOpen && selectedGoal !== null && (
+        <div
+          onClick={() => {
+            setModalOpen(false);
+            setSelectedGoal(null);
+          }}
+          className={styles.overlayModal}
+        >
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className={styles.modal}
+          >
+            <form onSubmit={handleSubmit} className={styles.modalForm}>
+              <input
+                value={goalTitle}
+                onChange={(e) => {
+                  setGoalTitle(e.target.value);
+                }}
+                className={styles.goalInput}
+                type="text"
+                placeholder="enter goal"
+              />
+              <select
+                value={goalCategory}
+                onChange={(e) => {
+                  setGoalCategory(e.target.value);
+                }}
+                className={styles.goalSelect}
+              >
+                <option value="Work">work</option>
+                <option value="Fitness">fitness</option>
+                <option value="Learning">learning</option>
+                <option value="Personal">personal</option>
+              </select>
+
+              <div className={styles.modalButtons}>
+                <button className={styles.submitButton} type="submit">
+                  update goal
+                </button>
+                <button
+                  className={styles.cancelButton}
+                  type="button"
+                  onClick={() => {
+                    setModalOpen(false);
+                    setSelectedGoal(null);
                   }}
                 >
                   cancel
