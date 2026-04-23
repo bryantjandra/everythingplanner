@@ -128,7 +128,7 @@
 
 .modalButtons {
   display: flex;
-  gap: 14px;
+  gap: 10px;
   justify-content: end;
 }
 
@@ -144,6 +144,15 @@
 .cancelButton {
   font-family: inherit;
   color: inherit;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.deleteButton {
+  font-family: inherit;
+  color: rgb(191, 107, 90);
   padding: 10px;
   cursor: pointer;
   border: none;

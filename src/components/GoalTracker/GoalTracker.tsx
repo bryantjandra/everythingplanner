@@ -6,8 +6,10 @@ import { FaLaptopCode } from "react-icons/fa";
 import { IoMdFitness } from "react-icons/io";
 import { LuBrain } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 export interface Goal {
+  id: string;
   title: string;
   category: "" | "Work" | "Fitness" | "Learning" | "Personal";
   progress: "not_started" | "in_progress" | "completed";
@@ -69,16 +71,40 @@ export default function GoalTracker() {
     setAllGoals(updatedGoals);
   }
 
+  function handleDelete() {
+    if (selectedGoal) {
+      const updatedYearlyGoals = allGoals[year].filter((goal) => {
+        if (goal.id === selectedGoal.id) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      const updatedGoals = { ...allGoals, [year]: updatedYearlyGoals };
+      setAllGoals(updatedGoals);
+      closeAndResetModal();
+    } else {
+      return;
+    }
+  }
+
+  function closeAndResetModal() {
+    setSelectedGoal(null);
+    setGoalTitle("");
+    setGoalCategory("Work");
+    setModalOpen(false);
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     let updatedGoals = {};
     if (selectedGoal) {
       const updatedYearlyGoals = allGoals[year].map((goal) => {
-        if (goal === selectedGoal) {
+        if (goal.id === selectedGoal.id) {
           return {
+            ...goal,
             title: goalTitle,
             category: goalCategory as Goal["category"],
-            progress: "not_started",
           };
         } else {
           return goal;
@@ -94,6 +120,7 @@ export default function GoalTracker() {
         [year]: [
           ...(allGoals[year] || []),
           {
+            id: `goal-${Date.now()}`,
             title: goalTitle,
             category: goalCategory as Goal["category"],
             progress: "not_started",
@@ -102,11 +129,8 @@ export default function GoalTracker() {
       };
     }
 
-    setGoalTitle("");
-    setGoalCategory("Work");
     setAllGoals(updatedGoals);
-    setSelectedGoal(null);
-    setModalOpen(false);
+    closeAndResetModal();
   }
 
   function handleSelectGoal(goal: Goal) {
@@ -162,7 +186,7 @@ export default function GoalTracker() {
                       onClick={() => {
                         handleSelectGoal(goal);
                       }}
-                      key={goal.title}
+                      key={goal.id}
                     >
                       {goal.title}
                     </li>
@@ -182,7 +206,7 @@ export default function GoalTracker() {
                       onClick={() => {
                         handleSelectGoal(goal);
                       }}
-                      key={goal.title}
+                      key={goal.id}
                     >
                       {goal.title}
                     </li>
@@ -198,7 +222,7 @@ export default function GoalTracker() {
                       onClick={() => {
                         handleSelectGoal(goal);
                       }}
-                      key={goal.title}
+                      key={goal.id}
                     >
                       {goal.title}
                     </li>
@@ -214,7 +238,7 @@ export default function GoalTracker() {
                       onClick={() => {
                         handleSelectGoal(goal);
                       }}
-                      key={goal.title}
+                      key={goal.id}
                     >
                       {goal.title}
                     </li>
@@ -235,13 +259,7 @@ export default function GoalTracker() {
       </div>
 
       {isModalOpen && (
-        <div
-          onClick={() => {
-            setModalOpen(false);
-            setSelectedGoal(null);
-          }}
-          className={styles.overlayModal}
-        >
+        <div onClick={closeAndResetModal} className={styles.overlayModal}>
           <div
             onClick={(e) => {
               e.stopPropagation();
@@ -273,75 +291,24 @@ export default function GoalTracker() {
 
               <div className={styles.modalButtons}>
                 <button className={styles.submitButton} type="submit">
-                  add goal
+                  {selectedGoal !== null ? "update goal" : "add goal"}
                 </button>
                 <button
                   className={styles.cancelButton}
                   type="button"
-                  onClick={() => {
-                    setModalOpen(false);
-                    setSelectedGoal(null);
-                  }}
+                  onClick={closeAndResetModal}
                 >
                   cancel
                 </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {isModalOpen && selectedGoal !== null && (
-        <div
-          onClick={() => {
-            setModalOpen(false);
-            setSelectedGoal(null);
-          }}
-          className={styles.overlayModal}
-        >
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className={styles.modal}
-          >
-            <form onSubmit={handleSubmit} className={styles.modalForm}>
-              <input
-                value={goalTitle}
-                onChange={(e) => {
-                  setGoalTitle(e.target.value);
-                }}
-                className={styles.goalInput}
-                type="text"
-                placeholder="enter goal"
-              />
-              <select
-                value={goalCategory}
-                onChange={(e) => {
-                  setGoalCategory(e.target.value);
-                }}
-                className={styles.goalSelect}
-              >
-                <option value="Work">work</option>
-                <option value="Fitness">fitness</option>
-                <option value="Learning">learning</option>
-                <option value="Personal">personal</option>
-              </select>
-
-              <div className={styles.modalButtons}>
-                <button className={styles.submitButton} type="submit">
-                  update goal
-                </button>
-                <button
-                  className={styles.cancelButton}
-                  type="button"
-                  onClick={() => {
-                    setModalOpen(false);
-                    setSelectedGoal(null);
-                  }}
-                >
-                  cancel
-                </button>
+                {selectedGoal && (
+                  <button
+                    onClick={handleDelete}
+                    className={styles.deleteButton}
+                    type="button"
+                  >
+                    <FaRegTrashAlt />
+                  </button>
+                )}
               </div>
             </form>
           </div>
