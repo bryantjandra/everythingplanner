@@ -31,6 +31,7 @@ export default function GoalTracker() {
 
   const [goalTitle, setGoalTitle] = useState("");
   const [goalCategory, setGoalCategory] = useState("Work");
+  const [goalProgress, setGoalProgress] = useState("not_started");
 
   const yearlyGoals = allGoals[year] || [];
 
@@ -92,6 +93,7 @@ export default function GoalTracker() {
     setSelectedGoal(null);
     setGoalTitle("");
     setGoalCategory("Work");
+    setGoalProgress("not_started");
     setModalOpen(false);
   }
 
@@ -102,9 +104,9 @@ export default function GoalTracker() {
       const updatedYearlyGoals = allGoals[year].map((goal) => {
         if (goal.id === selectedGoal.id) {
           return {
-            ...goal,
             title: goalTitle,
             category: goalCategory as Goal["category"],
+            progress: goalProgress,
           };
         } else {
           return goal;
@@ -123,7 +125,7 @@ export default function GoalTracker() {
             id: `goal-${Date.now()}`,
             title: goalTitle,
             category: goalCategory as Goal["category"],
-            progress: "not_started",
+            progress: goalProgress,
           },
         ],
       };
@@ -137,6 +139,7 @@ export default function GoalTracker() {
     setSelectedGoal(goal);
     setGoalTitle(goal.title);
     setGoalCategory(goal.category);
+    setGoalProgress(goal.progress);
     setModalOpen(true);
   }
 
@@ -180,15 +183,26 @@ export default function GoalTracker() {
               itemKey="1"
             >
               <ol className={styles.goalList}>
-                {yearlyWorkGoals.map((goal) => {
+                {yearlyWorkGoals.map((goal, index) => {
                   return (
                     <li
+                      className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
                       onClick={() => {
                         handleSelectGoal(goal);
                       }}
                       key={goal.id}
                     >
-                      {goal.title}
+                      <div className={styles.goalRows}>
+                        <div className={styles.goalLeft}>
+                          <span className={styles.goalNumber}>
+                            {index + 1}.
+                          </span>
+                          <span>{goal.title}</span>
+                        </div>
+                        <span
+                          className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
+                        />
+                      </div>
                     </li>
                   );
                 })}
@@ -200,15 +214,26 @@ export default function GoalTracker() {
               itemKey="2"
             >
               <ol className={styles.goalList}>
-                {yearlyFitnessGoals.map((goal) => {
+                {yearlyFitnessGoals.map((goal, index) => {
                   return (
                     <li
+                      className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
                       onClick={() => {
                         handleSelectGoal(goal);
                       }}
                       key={goal.id}
                     >
-                      {goal.title}
+                      <div className={styles.goalRows}>
+                        <div className={styles.goalLeft}>
+                          <span className={styles.goalNumber}>
+                            {index + 1}.
+                          </span>
+                          <span>{goal.title}</span>
+                        </div>
+                        <span
+                          className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
+                        />
+                      </div>
                     </li>
                   );
                 })}
@@ -216,15 +241,26 @@ export default function GoalTracker() {
             </TabPane>
             <TabPane className={styles.tabText} tab={<LuBrain />} itemKey="3">
               <ol className={styles.goalList}>
-                {yearlyLearningGoals.map((goal) => {
+                {yearlyLearningGoals.map((goal, index) => {
                   return (
                     <li
+                      className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
                       onClick={() => {
                         handleSelectGoal(goal);
                       }}
                       key={goal.id}
                     >
-                      {goal.title}
+                      <div className={styles.goalRows}>
+                        <div className={styles.goalLeft}>
+                          <span className={styles.goalNumber}>
+                            {index + 1}.
+                          </span>
+                          <span>{goal.title}</span>
+                        </div>
+                        <span
+                          className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
+                        />
+                      </div>
                     </li>
                   );
                 })}
@@ -232,15 +268,26 @@ export default function GoalTracker() {
             </TabPane>
             <TabPane className={styles.tabText} tab={<CgProfile />} itemKey="4">
               <ol className={styles.goalList}>
-                {yearlyPersonalGoals.map((goal) => {
+                {yearlyPersonalGoals.map((goal, index) => {
                   return (
                     <li
+                      className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
                       onClick={() => {
                         handleSelectGoal(goal);
                       }}
                       key={goal.id}
                     >
-                      {goal.title}
+                      <div className={styles.goalRows}>
+                        <div className={styles.goalLeft}>
+                          <span className={styles.goalNumber}>
+                            {index + 1}.
+                          </span>
+                          <span>{goal.title}</span>
+                        </div>
+                        <span
+                          className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
+                        />
+                      </div>
                     </li>
                   );
                 })}
@@ -276,18 +323,31 @@ export default function GoalTracker() {
                 type="text"
                 placeholder="enter goal"
               />
-              <select
-                value={goalCategory}
-                onChange={(e) => {
-                  setGoalCategory(e.target.value);
-                }}
-                className={styles.goalSelect}
-              >
-                <option value="Work">work</option>
-                <option value="Fitness">fitness</option>
-                <option value="Learning">learning</option>
-                <option value="Personal">personal</option>
-              </select>
+              <div className={styles.goalSelectRow}>
+                <select
+                  value={goalCategory}
+                  onChange={(e) => {
+                    setGoalCategory(e.target.value);
+                  }}
+                  className={styles.goalSelect}
+                >
+                  <option value="Work">work</option>
+                  <option value="Fitness">fitness</option>
+                  <option value="Learning">learning</option>
+                  <option value="Personal">personal</option>
+                </select>
+                <select
+                  value={goalProgress}
+                  onChange={(e) => {
+                    setGoalProgress(e.target.value);
+                  }}
+                  className={styles.goalSelect}
+                >
+                  <option value="not_started">not started</option>
+                  <option value="in_progress">in progress</option>
+                  <option value="completed">completed</option>
+                </select>
+              </div>
 
               <div className={styles.modalButtons}>
                 <button className={styles.submitButton} type="submit">
