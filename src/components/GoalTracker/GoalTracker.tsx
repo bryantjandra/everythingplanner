@@ -13,6 +13,13 @@ export interface Goal {
   title: string;
   category: "" | "Work" | "Fitness" | "Learning" | "Personal";
   progress: "not_started" | "in_progress" | "completed";
+  subgoals: SubGoal[];
+}
+
+export interface SubGoal {
+  id: string;
+  title: string;
+  progress: "not_started" | "in_progress" | "completed";
 }
 
 export default function GoalTracker() {
@@ -32,6 +39,8 @@ export default function GoalTracker() {
   const [goalTitle, setGoalTitle] = useState("");
   const [goalCategory, setGoalCategory] = useState("Work");
   const [goalProgress, setGoalProgress] = useState("not_started");
+
+  const [allSubGoals, setAllSubGoals] = useState<SubGoal[]>([]);
 
   const yearlyGoals = allGoals[year] || [];
 
@@ -89,15 +98,37 @@ export default function GoalTracker() {
     }
   }
 
+  function handleAddSubGoal() {
+    const updatedSubGoals = [
+      ...allSubGoals,
+      {
+        id: `subgoal-${Date.now()}`,
+        title: "",
+        progress: "not_started" as SubGoal["progress"],
+      },
+    ];
+    setAllSubGoals(updatedSubGoals);
+  }
+
+  function handleSubGoalChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) {
+    const updatedSubGoals = [...allSubGoals];
+    updatedSubGoals[index].title = e.target.value;
+    setAllSubGoals(updatedSubGoals);
+  }
+
   function closeAndResetModal() {
     setSelectedGoal(null);
     setGoalTitle("");
     setGoalCategory("Work");
     setGoalProgress("not_started");
+    setAllSubGoals([]);
     setModalOpen(false);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     let updatedGoals = {};
     if (selectedGoal) {
@@ -107,6 +138,7 @@ export default function GoalTracker() {
             title: goalTitle,
             category: goalCategory as Goal["category"],
             progress: goalProgress,
+            subgoals: allSubGoals,
           };
         } else {
           return goal;
@@ -126,6 +158,7 @@ export default function GoalTracker() {
             title: goalTitle,
             category: goalCategory as Goal["category"],
             progress: goalProgress,
+            subgoals: allSubGoals,
           },
         ],
       };
@@ -140,6 +173,7 @@ export default function GoalTracker() {
     setGoalTitle(goal.title);
     setGoalCategory(goal.category);
     setGoalProgress(goal.progress);
+    setAllSubGoals(goal.subgoals);
     setModalOpen(true);
   }
 
@@ -349,26 +383,51 @@ export default function GoalTracker() {
                 </select>
               </div>
 
+              <div className={styles.subGoalRow}>
+                {allSubGoals.map((subgoal, index) => {
+                  return (
+                    <input
+                      className={styles.subGoalInput}
+                      placeholder="enter subgoal"
+                      value={subgoal.title}
+                      onChange={(e) => {
+                        handleSubGoalChange(e, index);
+                      }}
+                    />
+                  );
+                })}
+              </div>
+
               <div className={styles.modalButtons}>
-                <button className={styles.submitButton} type="submit">
-                  {selectedGoal !== null ? "update goal" : "add goal"}
-                </button>
                 <button
-                  className={styles.cancelButton}
+                  onClick={handleAddSubGoal}
                   type="button"
-                  onClick={closeAndResetModal}
+                  className={`${styles.addSubGoalButton} ${allSubGoals.length >= 3 ? styles.addSubGoalButtonDisabled : ""}`}
+                  disabled={allSubGoals.length >= 3}
                 >
-                  cancel
+                  add subgoals
                 </button>
-                {selectedGoal && (
-                  <button
-                    onClick={handleDelete}
-                    className={styles.deleteButton}
-                    type="button"
-                  >
-                    <FaRegTrashAlt />
+                <div>
+                  <button className={styles.submitButton} type="submit">
+                    {selectedGoal !== null ? "update goal" : "add goal"}
                   </button>
-                )}
+                  <button
+                    className={styles.cancelButton}
+                    type="button"
+                    onClick={closeAndResetModal}
+                  >
+                    cancel
+                  </button>
+                  {selectedGoal && (
+                    <button
+                      onClick={handleDelete}
+                      className={styles.deleteButton}
+                      type="button"
+                    >
+                      <FaRegTrashAlt />
+                    </button>
+                  )}
+                </div>
               </div>
             </form>
           </div>
