@@ -216,116 +216,132 @@ export default function GoalTracker() {
               tab={<FaLaptopCode />}
               itemKey="1"
             >
-              <ol className={styles.goalList}>
-                {yearlyWorkGoals.map((goal, index) => {
-                  return (
-                    <li
-                      className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
-                      onClick={() => {
-                        handleSelectGoal(goal);
-                      }}
-                      key={goal.id}
-                    >
-                      <div className={styles.goalRows}>
-                        <div className={styles.goalLeft}>
-                          <span className={styles.goalNumber}>
-                            {index + 1}.
-                          </span>
-                          <span>{goal.title}</span>
+              {yearlyWorkGoals.length > 0 ? (
+                <ol className={styles.goalList}>
+                  {yearlyWorkGoals.map((goal, index) => {
+                    return (
+                      <li
+                        className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
+                        onClick={() => {
+                          handleSelectGoal(goal);
+                        }}
+                        key={goal.id}
+                      >
+                        <div className={styles.goalRows}>
+                          <div className={styles.goalLeft}>
+                            <span className={styles.goalNumber}>
+                              {index + 1}.
+                            </span>
+                            <span>{goal.title}</span>
+                          </div>
+                          <span
+                            className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
+                          />
                         </div>
-                        <span
-                          className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
-                        />
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
+                      </li>
+                    );
+                  })}
+                </ol>
+              ) : (
+                <div className={styles.noGoalsAdded}>No goals added yet.</div>
+              )}
             </TabPane>
             <TabPane
               className={styles.tabText}
               tab={<IoMdFitness />}
               itemKey="2"
             >
-              <ol className={styles.goalList}>
-                {yearlyFitnessGoals.map((goal, index) => {
-                  return (
-                    <li
-                      className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
-                      onClick={() => {
-                        handleSelectGoal(goal);
-                      }}
-                      key={goal.id}
-                    >
-                      <div className={styles.goalRows}>
-                        <div className={styles.goalLeft}>
-                          <span className={styles.goalNumber}>
-                            {index + 1}.
-                          </span>
-                          <span>{goal.title}</span>
+              {yearlyFitnessGoals.length > 0 ? (
+                <ol className={styles.goalList}>
+                  {yearlyFitnessGoals.map((goal, index) => {
+                    return (
+                      <li
+                        className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
+                        onClick={() => {
+                          handleSelectGoal(goal);
+                        }}
+                        key={goal.id}
+                      >
+                        <div className={styles.goalRows}>
+                          <div className={styles.goalLeft}>
+                            <span className={styles.goalNumber}>
+                              {index + 1}.
+                            </span>
+                            <span>{goal.title}</span>
+                          </div>
+                          <span
+                            className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
+                          />
                         </div>
-                        <span
-                          className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
-                        />
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
+                      </li>
+                    );
+                  })}
+                </ol>
+              ) : (
+                <div className={styles.noGoalsAdded}>No goals added yet.</div>
+              )}
             </TabPane>
             <TabPane className={styles.tabText} tab={<LuBrain />} itemKey="3">
-              <ol className={styles.goalList}>
-                {yearlyLearningGoals.map((goal, index) => {
-                  return (
-                    <li
-                      className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
-                      onClick={() => {
-                        handleSelectGoal(goal);
-                      }}
-                      key={goal.id}
-                    >
-                      <div className={styles.goalRows}>
-                        <div className={styles.goalLeft}>
-                          <span className={styles.goalNumber}>
-                            {index + 1}.
-                          </span>
-                          <span>{goal.title}</span>
+              {yearlyLearningGoals.length > 0 ? (
+                <ol className={styles.goalList}>
+                  {yearlyLearningGoals.map((goal, index) => {
+                    return (
+                      <li
+                        className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
+                        onClick={() => {
+                          handleSelectGoal(goal);
+                        }}
+                        key={goal.id}
+                      >
+                        <div className={styles.goalRows}>
+                          <div className={styles.goalLeft}>
+                            <span className={styles.goalNumber}>
+                              {index + 1}.
+                            </span>
+                            <span>{goal.title}</span>
+                          </div>
+                          <span
+                            className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
+                          />
                         </div>
-                        <span
-                          className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
-                        />
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
+                      </li>
+                    );
+                  })}
+                </ol>
+              ) : (
+                <div className={styles.noGoalsAdded}>No goals added yet.</div>
+              )}
             </TabPane>
             <TabPane className={styles.tabText} tab={<CgProfile />} itemKey="4">
-              <ol className={styles.goalList}>
-                {yearlyPersonalGoals.map((goal, index) => {
-                  return (
-                    <li
-                      className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
-                      onClick={() => {
-                        handleSelectGoal(goal);
-                      }}
-                      key={goal.id}
-                    >
-                      <div className={styles.goalRows}>
-                        <div className={styles.goalLeft}>
-                          <span className={styles.goalNumber}>
-                            {index + 1}.
-                          </span>
-                          <span>{goal.title}</span>
+              {yearlyPersonalGoals.length > 0 ? (
+                <ol className={styles.goalList}>
+                  {yearlyPersonalGoals.map((goal, index) => {
+                    return (
+                      <li
+                        className={`${goal.progress === "not_started" ? styles.goalNotStarted : goal.progress === "in_progress" ? styles.goalInProgress : styles.goalCompleted}`}
+                        onClick={() => {
+                          handleSelectGoal(goal);
+                        }}
+                        key={goal.id}
+                      >
+                        <div className={styles.goalRows}>
+                          <div className={styles.goalLeft}>
+                            <span className={styles.goalNumber}>
+                              {index + 1}.
+                            </span>
+                            <span>{goal.title}</span>
+                          </div>
+                          <span
+                            className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
+                          />
                         </div>
-                        <span
-                          className={`${styles.statusDot} ${goal.progress === "not_started" ? styles.notStarted : goal.progress === "in_progress" ? styles.inProgress : styles.completed}`}
-                        />
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
+                      </li>
+                    );
+                  })}
+                </ol>
+              ) : (
+                <div className={styles.noGoalsAdded}>No goals added yet.</div>
+              )}
             </TabPane>
           </Tabs>
           <button
