@@ -21,6 +21,9 @@ export default function Pomodoro({
   const [isRunning, setIsRunning] = useState(false);
   const [seconds, setSeconds] = useState(DEFAULT_TIME_WORK);
   const [mode, setMode] = useState<"Work" | "Rest">("Work");
+  const totalSessions = Object.values(allSessions).reduce((acc, curr) => {
+    return acc + curr;
+  }, 0);
 
   function formatTime(s: number) {
     const minutes = Math.floor(s / 60);
@@ -74,8 +77,11 @@ export default function Pomodoro({
     <>
       <div className={styles.clockTimer}>
         <div className={styles.counterContainer}>
-          deep work sessions:{" "}
-          {allSessions[currDate] ? allSessions[currDate] : 0}
+          <span className={styles.todayStat}>
+            today: {allSessions[currDate] ? allSessions[currDate] : 0}
+          </span>
+          <span className={styles.divider}></span>
+          <span className={styles.allTimeStat}>total: {totalSessions}</span>
         </div>
 
         <div className={styles.clockTimerTop}>
