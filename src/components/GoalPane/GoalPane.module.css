@@ -1,0 +1,330 @@
+.goalContainer {
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  min-height: 100vh;
+  max-width: 700px;
+}
+
+.leftSidebar {
+  position: absolute;
+  top: 150px;
+  right: calc(100% + 20px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 25px;
+}
+
+.goalContent {
+  width: 100%;
+  margin-top: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.yearList {
+  transition: 0.3s color ease;
+  cursor: pointer;
+}
+
+.yearList:hover {
+  color: rgb(var(--color-muted));
+}
+
+.activeYear {
+  color: rgb(var(--color-muted));
+}
+
+.tabContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.tabText {
+  padding: 15px;
+  margin-left: 15px;
+}
+
+.addGoal {
+  all: unset;
+  width: 20px;
+  height: 20px;
+  transition: 0.3s color ease;
+}
+
+.addGoal:hover {
+  color: rgb(var(--color-muted));
+}
+
+.plusIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.overlayModal {
+  background: rgb(0, 0, 0, 12%);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 0;
+  z-index: 1000;
+}
+
+.modal {
+  width: 600px;
+  max-width: 900px;
+  background: #f7f4f1;
+  border: 1px solid #d8d2cc;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+}
+
+.goalInput {
+  border: 1px solid rgb(var(--color-foreground));
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 5px;
+  width: 85%;
+  font-family: inherit;
+  align-self: center;
+}
+
+.goalInput:focus {
+  outline: none;
+  border-color: rgb(var(--color-muted));
+}
+
+.goalInput::placeholder {
+  font-style: italic;
+  font-family: inherit;
+  opacity: 0.7;
+}
+
+.noGoalsAdded {
+  display: flex;
+  height: 100px;
+  align-items: center;
+  font-size: 10px;
+  justify-content: center;
+  font-style: italic;
+  font-family: inherit;
+  opacity: 0.8;
+}
+
+.subGoalInput {
+  border: 1px solid rgb(var(--color-foreground));
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 5px;
+  width: 45%;
+  font-family: inherit;
+  align-self: center;
+}
+
+.subGoalInput:focus {
+  outline: none;
+  border-color: rgb(var(--color-muted));
+}
+
+.subGoalInput::placeholder {
+  font-style: italic;
+  font-family: inherit;
+  opacity: 0.7;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.notStarted {
+  background-color: #d8d8d8;
+}
+
+.inProgress {
+  background-color: #d9c58f;
+}
+
+.completed {
+  background-color: #9bb79f;
+}
+
+.goalSelectRow {
+  display: flex;
+  column-gap: 10px;
+  justify-content: center;
+}
+
+.subGoalRow {
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+}
+
+.goalSelect {
+  border: 1px solid rgb(var(--color-foreground));
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 5px;
+  width: 25%;
+  font-family: inherit;
+  align-self: start;
+}
+
+.goalSelect:focus {
+  outline: none;
+  border-color: rgb(var(--color-muted));
+}
+
+.modalButtons {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+
+.submitButton {
+  font-family: inherit;
+  color: inherit;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.cancelButton {
+  font-family: inherit;
+  color: inherit;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.addSubGoalButton {
+  font-family: inherit;
+  color: inherit;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.addSubGoalButtonDisabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.deleteButton {
+  font-family: inherit;
+  color: rgb(191, 107, 90);
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.goalList {
+  list-style: none;
+}
+
+.goalList li {
+  padding: 10px;
+  margin-bottom: 10px;
+  transition: 0.2s border ease;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background-color: transparent;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.goalLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.goalNumber {
+  color: rgb(var(--color-foreground));
+  opacity: 0.7;
+}
+
+.goalRows {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goalNotStarted:hover {
+  background-color: rgba(128, 128, 128, 0.08);
+  border-color: #d9d9d9;
+}
+
+.goalInProgress:hover {
+  background-color: rgba(217, 197, 143, 0.18);
+  border-color: rgba(217, 197, 143, 0.45);
+}
+
+.goalCompleted:hover {
+  background-color: rgba(155, 183, 159, 0.18);
+  border-color: rgba(155, 183, 159, 0.45);
+}
+
+.subgoalList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-between;
+  margin-top: 10px;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.subgoalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subgoalLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 70%;
+}
+
+.subgoalLetter {
+  color: rgb(var(--color-foreground));
+  opacity: 0.7;
+}
+
+.checkboxTodo {
+  accent-color: #8ba888;
+  cursor: pointer;
+}
+
+.completedSubgoal {
+  color: rgb(var(--color-muted));
+  opacity: 0.6;
+  transition: all 0.5s ease;
+}
+
+.unfinishedSubgoal {
+  transition: all 0.5s ease;
+}
