@@ -1,5 +1,5 @@
 .calendar {
-  width: 18.75rem;
+  width: 20rem;
   border: 2px solid rgb(var(--color-muted));
   border-radius: var(--radius-lg);
   overflow: hidden;

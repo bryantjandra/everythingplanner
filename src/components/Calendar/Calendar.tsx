@@ -37,6 +37,7 @@ export default function Calendar({
   return (
     <>
       <DatePicker
+        size="large"
         className={styles.calendar}
         defaultValue={currDate}
         placeholder={"hey phinneas, whatcha dooooin"}

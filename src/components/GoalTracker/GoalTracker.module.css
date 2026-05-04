@@ -13,6 +13,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   row-gap: var(--space-6);
 }
 
@@ -23,17 +24,75 @@
   justify-content: center;
 }
 
+.yearRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 var(--space-5);
+}
+
 .yearList {
-  transition: 0.3s color ease;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  text-align: center;
+  font-size: inherit;
+  color: inherit;
+  padding: 0;
   cursor: pointer;
+  transition: color 0.15s ease;
 }
 
 .yearList:hover {
   color: rgb(var(--color-muted));
 }
 
-.activeYear {
+.activeYear,
+.activeYear:hover {
   color: rgb(var(--color-muted));
+}
+
+.deleteYearButton {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgb(var(--color-muted));
+  cursor: pointer;
+  font-size: var(--font-base);
+  padding: 0 var(--space-1);
+  line-height: 1;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease;
+}
+
+.yearRow:hover .deleteYearButton {
+  opacity: 0.6;
+}
+
+.deleteYearButton:hover {
+  opacity: 1;
+  color: var(--color-danger);
+}
+
+.addYearButton {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--font-xl);
+  color: rgb(var(--color-muted));
+  transition: color 0.15s ease;
+}
+
+.addYearButton:hover {
+  color: rgb(var(--color-foreground));
 }
 
 .tabContent {

@@ -23,15 +23,39 @@ export interface SubGoal {
   done: boolean;
 }
 
+const SEED_YEAR = new Date().getFullYear();
+
+const SEED_GOALS: Record<number, Goal[]> = {
+  [SEED_YEAR]: [
+    {
+      id: "seed-work",
+      title: "placeholder: ship a side project",
+      category: "Work",
+      progress: "in_progress",
+      subgoals: [
+        { id: "seed-work-a", title: "deploy to production", done: true },
+        { id: "seed-work-b", title: "share with friends", done: false },
+      ],
+    },
+    {
+      id: "seed-learning",
+      title: "placeholder: finish a system design course",
+      category: "Learning",
+      progress: "in_progress",
+      subgoals: [
+        { id: "seed-learning-a", title: "watch all lectures", done: true },
+        { id: "seed-learning-b", title: "complete the capstone", done: false },
+      ],
+    },
+  ],
+};
+
 export default function GoalTracker() {
-  const currentMonth = new Date().getMonth();
-  const [year, setYear] = useState(() => {
-    return new Date().getFullYear();
-  });
+  const [year, setYear] = useState(SEED_YEAR);
 
   const [allGoals, setAllGoals] = useState<Record<number, Goal[]>>(() => {
     const saved = localStorage.getItem("allGoals");
-    return saved ? JSON.parse(saved) : {};
+    return saved ? JSON.parse(saved) : SEED_GOALS;
   });
 
   const [isModalOpen, setModalOpen] = useState(false);
@@ -73,13 +97,34 @@ export default function GoalTracker() {
     return false;
   });
 
-  function handleClick() {
-    const currentYear = new Date().getFullYear();
-    const updatedGoals = {
-      ...allGoals,
-      [currentYear]: allGoals[currentYear] || [],
-    };
-    setAllGoals(updatedGoals);
+  const sortedYears = Object.keys(allGoals)
+    .map(Number)
+    .sort((a, b) => b - a);
+
+  const MAX_YEARS = 5;
+
+  function handleAddYear() {
+    if (sortedYears.length >= MAX_YEARS) return;
+    const nextYear =
+      sortedYears.length === 0 ? new Date().getFullYear() : sortedYears[0] + 1;
+    if (allGoals[nextYear]) return;
+    setAllGoals({ ...allGoals, [nextYear]: [] });
+    setYear(nextYear);
+  }
+
+  function handleDeleteYear(yearToDelete: number) {
+    if (yearToDelete === new Date().getFullYear()) return;
+
+    const remaining = { ...allGoals };
+    delete remaining[yearToDelete];
+    setAllGoals(remaining);
+
+    if (yearToDelete === year) {
+      const remainingYears = Object.keys(remaining)
+        .map(Number)
+        .sort((a, b) => b - a);
+      setYear(remainingYears[0] ?? new Date().getFullYear());
+    }
   }
 
   function handleDelete() {
@@ -217,21 +262,41 @@ export default function GoalTracker() {
     <>
       <div className={styles.goalContainer}>
         <div className={styles.leftSidebar}>
-          {Object.keys(allGoals).map((yearKey) => {
+          {sortedYears.map((yr) => {
+            const currentYear = new Date().getFullYear();
             return (
-              <span
-                onClick={() => {
-                  setYear(Number(yearKey));
-                }}
-                className={`${styles.yearList} ${Number(yearKey) === year ? styles.activeYear : ""}`}
-                key={yearKey}
-              >
-                {yearKey}
-              </span>
+              <div key={yr} className={styles.yearRow}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setYear(yr);
+                  }}
+                  className={`${styles.yearList} ${yr === year ? styles.activeYear : ""}`}
+                >
+                  {yr}
+                </button>
+                {yr !== currentYear && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleDeleteYear(yr);
+                    }}
+                    className={styles.deleteYearButton}
+                    aria-label={`delete ${yr}`}
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
             );
           })}
-          {currentMonth === 11 && (
-            <button onClick={handleClick}>
+          {sortedYears.length < MAX_YEARS && (
+            <button
+              type="button"
+              onClick={handleAddYear}
+              className={styles.addYearButton}
+              aria-label="add year"
+            >
               <CiCirclePlus />
             </button>
           )}

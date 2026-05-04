@@ -13,13 +13,21 @@ export interface Todo {
   completed: boolean;
 }
 
+const TODAY_KEY = new Date().toLocaleDateString("en-CA");
+
+const SEED_TODOS: Record<string, Todo[]> = {
+  [TODAY_KEY]: [
+    { text: "double-click any todo to edit it.", completed: false },
+    { text: "checkbox marks it as done :)", completed: true },
+    { text: "trash icon deletes a todo!", completed: false },
+  ],
+};
+
 function App() {
-  const date = new Date();
-  const todaysDate = date.toLocaleDateString("en-CA");
-  const [currDate, setCurrDate] = useState(todaysDate);
+  const [currDate, setCurrDate] = useState(TODAY_KEY);
   const [allTodos, setAllTodos] = useState<Record<string, Todo[]>>(() => {
     const saved = localStorage.getItem("allTodos");
-    return saved ? JSON.parse(saved) : {};
+    return saved ? JSON.parse(saved) : SEED_TODOS;
   });
 
   const [allSessions, setAllSessions] = useState<Record<string, number>>(() => {
