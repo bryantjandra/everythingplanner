@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# everythingplanner.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal all-in-one daily planner: tracking todos, a yearly goal tracker, and a pomodoro timer all in one.
 
-Currently, two official plugins are available:
+## Why did I build it?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+I was tired of switching between Google Docs, Notion, & some random productivity app.
 
-## React Compiler
+So I built one for myself. It's a minimalist-styled application for my daily todos, yearly goals, and for tracking my pomodoro work + rest sessions.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Every feature I made was designed and implemented deliberately according to what I would like in a all-in-one daily/yearly planner (0 vibe coding was done lol). This project has brought back the joy of coding manually for me, and it has helped me deeply understand the underlying mechanics of my code (e.g. state management, component architecture, data flow), instead of relying too heavily on AI to abstract those details away.
 
-## Expanding the ESLint configuration
+## ✦ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### ✓ Daily todos — [src/components/TodoCard/](src/components/TodoCard/)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Add a todo by pressing **Enter** in the input
+- Edit a todo by **double-clicking** it; **Escape** cancels, **Enter** saves
+- Toggle complete with the checkbox
+- Delete individual todos
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### ◐ Calendar view — [src/components/Calendar/](src/components/Calendar/)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Date picker for navigating to any day's todo list
+- Visual indicator dots on the picker:
+  - **green** when every todo for that date is completed
+  - **gray** when there are todos in progress
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### ⏱ Pomodoro timer — [src/components/Pomodoro/](src/components/Pomodoro/)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- 60-minute **work** sessions and 15-minute **rest** sessions
+- Play / pause / reset, plus a Work ↔ Rest mode switch
+- Per-day session count **and** lifetime total shown in the navbar
+- Audio cue on session completion (`pomodoroSparkle.mp3`)
+- Active countdown rendered in the **document title** so it's visible from any browser tab
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### ◇ Goal tracker — [src/components/GoalTracker/](src/components/GoalTracker/)
+
+- Year-scoped goals across 4 tabbed categories: **Work**, **Fitness**, **Learning**, **Personal**
+- Goal status states: not started / in progress / completed (status dot UI)
+- Up to 3 **subgoals** per goal, each independently checkable
+- Year selector in the sidebar; the next year auto-surfaces once December rolls around
+
+## ❖ Tech stack
+
+- **React 19** + **TypeScript 5.9** + **Vite 8** (build / dev server)
+- **React Router 7** for client-side routing
+- **CSS Modules** for component-scoped styling
+- **@douyinfe/semi-ui** for the date picker and tabs
+- **react-icons** for iconography
+- **State management:** plain React hooks.
+- **Persistence:** `localStorage`.
