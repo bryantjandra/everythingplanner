@@ -1,6 +1,6 @@
-# everythingplanner.
+# everythingplanner ✍🏻
 
-A personal all-in-one daily planner: tracking todos, a yearly goal tracker, and a pomodoro timer all in one.
+A personal all-in-one planner: tracking daily todos, yearly goals, and a pomodoro timer all in one app.
 
 ## Why did I build it?
 
@@ -8,9 +8,13 @@ I was tired of switching between Google Docs, Notion, & some random productivity
 
 So I built one for myself. It's a minimalist-styled application for my daily todos, yearly goals, and for tracking my pomodoro work + rest sessions.
 
-Every feature I made was designed and implemented deliberately according to what I would like in a all-in-one daily/yearly planner (0 vibe coding was done lol). This project has brought back the joy of coding manually for me, and it has helped me deeply understand the underlying mechanics of my code (e.g. state management, component architecture, data flow), instead of relying too heavily on AI to abstract those details away.
+Having my todos, goals, and pomodoro sessions in one place makes planning feel more focused, less scattered, and much easier to maintain consistently! I've now felt much more organized and intentional with how I structure my days and my goals for the year.
 
-## ✦ Features
+Beyond just being useful, this project also reinvigorated my joy for hands-on coding. Building it manually (0 vibe coding) helped me deeply understand the underlying mechanics of my code (e.g. state management, component architecture, data flow) instead of relying too heavily on AI to abstract those details away.
+
+Feel free to try [everythingplanner](https://everythingplanner.vercel.app/) — hopefully it helps you plan your days/years a little more intentionally too!
+
+## Core Features!
 
 ### ✓ Daily todos — [src/components/TodoCard/](src/components/TodoCard/)
 
