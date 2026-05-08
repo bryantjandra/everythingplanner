@@ -487,8 +487,8 @@ export default function GoalTracker() {
                   <button
                     onClick={handleAddSubGoal}
                     type="button"
-                    className={`${styles.addSubGoalButton} ${allSubGoals.length >= 5 ? styles.addSubGoalButtonDisabled : ""}`}
-                    disabled={allSubGoals.length >= 5}
+                    className={`${styles.addSubGoalButton} ${allSubGoals.length >= 10 ? styles.addSubGoalButtonDisabled : ""}`}
+                    disabled={allSubGoals.length >= 10}
                   >
                     + add subgoal
                   </button>
