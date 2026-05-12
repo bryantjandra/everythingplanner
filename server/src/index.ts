@@ -1,10 +1,17 @@
 import express from "express";
+import bcrypt from "bcrypt";
 import { pool } from "./db";
+import jwt from "jsonwebtoken";
 
 const TEMP_USER_ID = 1;
 
 const app = express();
 const PORT = 3000;
+
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is required.");
+}
 
 app.use(express.json());
 
@@ -15,6 +22,72 @@ app.get("/health", (req, res) => {
 app.get("/db-check", async (req, res) => {
   const result = await pool.query("SELECT NOW()");
   return res.json({ now: result.rows[0].now });
+});
+
+app.post("/auth/register", async (req, res) => {
+  const { username, email, password } = req.body;
+  if (typeof username !== "string" || username === "") {
+    return res.status(400).json({ error: "username is required" });
+  }
+  if (typeof email !== "string" || email === "") {
+    return res.status(400).json({ error: "email is required" });
+  }
+  if (typeof password !== "string" || password === "") {
+    return res.status(400).json({ error: "password is required" });
+  }
+
+  const hash = await bcrypt.hash(password, 10);
+  try {
+    const result = await pool.query(
+      "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id",
+      [username, email, hash],
+    );
+    const userId = result.rows[0].id;
+    const token = jwt.sign({ userId: userId }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
+    return res.json({ token: token });
+  } catch (err: any) {
+    if (err.code === "23505") {
+      return res
+        .status(409)
+        .json({ error: "username or email already in use" });
+    }
+    throw err;
+  }
+});
+
+app.post("/auth/login", async (req, res) => {
+  const { email, password } = req.body;
+  if (typeof email !== "string" || email === "") {
+    return res.status(400).json({ error: "email is required" });
+  }
+  if (typeof password !== "string" || password === "") {
+    return res.status(400).json({ error: "password is required" });
+  }
+
+  const result = await pool.query(
+    "SELECT id, password_hash FROM users WHERE email = $1",
+    [email],
+  );
+
+  if (result.rows.length === 0) {
+    return res.status(401).json({ error: "invalid credentials" });
+  }
+  const isValidPassword = await bcrypt.compare(
+    password,
+    result.rows[0].password_hash,
+  );
+
+  if (!isValidPassword) {
+    return res.status(401).json({ error: "invalid credentials" });
+  }
+
+  const token = jwt.sign({ userId: result.rows[0].id }, JWT_SECRET, {
+    expiresIn: "7d",
+  });
+
+  return res.json({ token: token });
 });
 
 app.get("/sessions", async (req, res) => {
